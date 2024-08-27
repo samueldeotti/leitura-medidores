@@ -1,4 +1,4 @@
-export type Measure = {
+export interface Measure {
   uuid: number;
   customerCode: string;
   measureType: 'WATER' | 'GAS';

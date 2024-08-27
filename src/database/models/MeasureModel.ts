@@ -4,9 +4,9 @@ import {
   Optional,
   ModelDefined,
 } from 'sequelize';
-import db from '../db';
+import db from '../config/db';
 
-import { Measure } from '../../../types/Measure';
+import { Measure } from '../../types/Measure';
 
 export type MeasureInputtableFields = Optional<Measure, 'uuid'>;
 
@@ -25,10 +25,10 @@ const MeasureModel: MeasureSequelizeModelCreator = db.define('Measure', {
     type: DataTypes.STRING,
     field: 'customer_code',
   },
-  measureDate: {
+  measureDatetime: {
     allowNull: false,
     type: DataTypes.DATE,
-    field: 'measure_date',
+    field: 'measure_datetime',
   },
   measureType: {
     allowNull: false,
@@ -46,7 +46,7 @@ const MeasureModel: MeasureSequelizeModelCreator = db.define('Measure', {
     defaultValue: false,
     field: 'has_confirmed',
   },
-  imageUrl: {
+  image: {
     allowNull: true,
     type: DataTypes.STRING,
     field: 'image_url',
