@@ -1,5 +1,5 @@
 import app from './app';
-import sequelize from './config/db';
+import sequelize from './database/config/db';
 
 const PORT = process.env.PORT || 3000;
 
