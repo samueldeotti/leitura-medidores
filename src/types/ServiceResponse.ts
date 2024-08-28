@@ -20,7 +20,6 @@ export type ServiceResponseSuccess<T> = {
 };
 
 export type ServiceResponse<T> = {
-
   status: 'SUCCESSFUL' | 'BAD_REQUEST' | 'NOT_FOUND';
 
   data: T | ServiceErrorMessage;

@@ -24,6 +24,12 @@ export default class MeasureModel implements IMeasureModel {
 
     return measure;
   }
+  
+  async getCustomerMeasures(query: any): Promise<Measure[]> {
+    const measures = await this.model.findAll({ where: query });
+    return measures.map((measure) => measure.dataValues);
+  }
+  
 
 
 }
