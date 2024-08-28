@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import CustomerService from '../services/customer.service';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
 import { querySchema } from '../schema/customerQuerySchema';
+import { Measure } from '../types/Measure';
 
 export default class ConfirmController {
   constructor(
@@ -18,20 +19,21 @@ export default class ConfirmController {
 
     if (error) return res.status(400).json({ error_code: "INVALID_TYPE", error_description: error.details[0].message });
 
-
     const query = { customer_code } as any;
     if (measure_type) { query.measure_type = measure_type.toString().toUpperCase()}
 
-    const measures = await this.customerService.getCustomerMeasures(query);
+    const { status, data } = await this.customerService.getCustomerMeasures(query);
 
-    if (!measures) {
+    if (status !== "SUCCESSFUL") return res.status(mapStatusHTTP(status)).json(data);
+
+    const measures = data as Measure[];
+
+    if (!measures.length) {
       return res.status(404).json({
         error_code: 'MEASURES_NOT_FOUND',
         error_description: 'Nenhuma leitura encontrada'
       });
     }
-
-    const { status, data } = await this.customerService.getCustomerMeasures(query);
 
     return res.status(mapStatusHTTP(status)).json({customer_code, measures: data});
   }
