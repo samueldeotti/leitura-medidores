@@ -18,7 +18,8 @@ const MeasureModel: MeasureSequelizeModelCreator = db.define('Measure', {
   uuid: {
     allowNull: false,
     primaryKey: true,
-    type: DataTypes.STRING,
+    type: DataTypes.UUIDV4,
+    defaultValue: DataTypes.UUIDV4,
   },
   customerCode: {
     allowNull: false,
@@ -38,6 +39,7 @@ const MeasureModel: MeasureSequelizeModelCreator = db.define('Measure', {
   measureValue: {
     allowNull: false,
     type: DataTypes.INTEGER,
+    defaultValue: 0, // ficar 0 por enquanto ate desenvolver a funcionalidade
     field: 'measure_value',
   },
   hasConfirmed: {

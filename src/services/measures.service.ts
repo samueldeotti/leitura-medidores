@@ -3,15 +3,15 @@ import { IMeasureModel } from '../Interfaces/Measures/IMeasureModel';
 import { ServiceResponse } from '../types/ServiceResponse';
 import { Measure } from '../Interfaces/Measures/MeasureType';
 
-export default class ProductService {
+export default class MeasureService {
   constructor(
     private measureModel: IMeasureModel = new MeasureModel(),
   ) { }
 
-  public async createProduct(product: Measure): Promise<ServiceResponse<Measure>> {
-    const createdProduct = await this.measureModel.createMeasure(product);
+  public async createMeasure(measure: Measure): Promise<ServiceResponse<Measure>> {
+    const createdMeasure = await this.measureModel.createMeasure(measure);
 
-    return { status: 'SUCCESSFUL', data: createdProduct };
+    return { status: 'SUCCESSFUL', data: createdMeasure };
   }
 
 
