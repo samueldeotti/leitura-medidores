@@ -5,6 +5,7 @@ export interface Measure {
   measureDatetime: Date;
   image: string;
   measureValue?: number;
+  hasConfirmed?: boolean;
 }
 
 export interface ResponseMeasure {

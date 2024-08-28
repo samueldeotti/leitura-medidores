@@ -1,39 +1,24 @@
 import { Request, Response } from 'express';
 import mapStatusHTTP from "../utils/mapStatusHTTP";
-import MeasureService from '../services/measures.service';
-import { measureSchema } from '../schema/meashureSchema';
-import MeasureModel from '../models/measureModel';
+import ConfirmService from '../services/confirm.service';
+import { confirmSchema } from '../schema/confirmSchema';
 
 export default class ConfirmController {
   constructor(
-    private measureService = new MeasureService(),
+    private confirmService = new ConfirmService(),
   ) { }
 
   public async confirmMeasure(req: Request, res: Response) {
 
+    const { error } = confirmSchema.validate(req.body);
+
+    if (error) return res.status(400).json({ error_code: "INVALID_DATA", error_description: error.details[0].message });
+
     const { measure_uuid, confirmed_value } = req.body;
 
-    const measure = await MeasureModel.findByPk(measure_uuid);
+    const { status, data } = await this.confirmService.confirmMeasure(measure_uuid, confirmed_value);
 
-    if (!measure) {
-      return res.status(404).json({
-        error_code: 'MEASURE_NOT_FOUND',
-        error_description: 'Leitura do mês já realizada'
-      });
-    }
-
-    if (measure.has_confirmed) {
-      return res.status(409).json({
-        error_code: 'CONFIRMATION_DUPLICATE',
-        error_description: 'Leitura do mês já realizada'
-      });
-    }
-
-    measure.measure_value = confirmed_value;
-    measure.has_confirmed = true;
-    await measure.save();
-
-    return res.status(200).json({"success": true});
+    return res.status(mapStatusHTTP(status)).json(data);
   }
 
 

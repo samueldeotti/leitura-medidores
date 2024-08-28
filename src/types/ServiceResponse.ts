@@ -1,11 +1,17 @@
-export type ServiceMessage = { message: string };
+type ServiceErrorMessage = {
+
+  error_code: string;
+
+  error_description: string;
+
+};
 
 type ServiceResponseErrorType = 'INVALID_DATA'
-| 'UNAUTHORIZED' | 'NOT_FOUND' | 'CONFLICT' | 'INVALID';
+| 'UNAUTHORIZED' | 'NOT_FOUND' | 'CONFLICT' | 'INVALID' | 'BAD_REQUEST';
 
 export type ServiceResponseError = {
   status: ServiceResponseErrorType,
-  data: ServiceMessage
+  data: ServiceErrorMessage
 };
 
 export type ServiceResponseSuccess<T> = {
@@ -13,4 +19,15 @@ export type ServiceResponseSuccess<T> = {
   data: T
 };
 
-export type ServiceResponse<T> = ServiceResponseError | ServiceResponseSuccess<T>;
+export type ServiceResponse<T> = {
+
+  status: 'SUCCESSFUL' | 'BAD_REQUEST' | 'NOT_FOUND';
+
+  data: T | ServiceErrorMessage;
+
+};
+
+
+
+
+
