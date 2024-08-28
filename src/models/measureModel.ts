@@ -8,9 +8,9 @@ export default class MeasureModel implements IMeasureModel {
   async createMeasure(measure: Measure): Promise<any> {
     const createdMeasure = await this.model.create(measure);
 
-    console.log('Measure has been created: ', createdMeasure);
+    console.log('Measure has been created: ', createdMeasure.dataValues);
 
-    return createdMeasure;
+    return createdMeasure.dataValues;
   }
 
 
