@@ -1,17 +1,29 @@
 import MeasureModel from '../models/measureModel';
 import { IMeasureModel } from '../Interfaces/Measures/IMeasureModel';
 import { ServiceResponse } from '../types/ServiceResponse';
-import { Measure } from '../Interfaces/Measures/MeasureType';
+import { Measure, ResponseMeasure } from '../Interfaces/Measures/MeasureType';
+import { getGeminiMeasure } from '../utils/geminiService';
 
 export default class MeasureService {
   constructor(
     private measureModel: IMeasureModel = new MeasureModel(),
   ) { }
 
-  public async createMeasure(measure: Measure): Promise<ServiceResponse<Measure>> {
-    const createdMeasure = await this.measureModel.createMeasure(measure);
+  public async createMeasure(measure: Measure): Promise<ServiceResponse<ResponseMeasure>> {
 
-    return { status: 'SUCCESSFUL', data: createdMeasure };
+    const geminiMeasureValue = await getGeminiMeasure(measure.image);
+
+    console.log('Gemini measure value: ', geminiMeasureValue);
+
+    const createdMeasure = await this.measureModel.createMeasure({...measure, measureValue: geminiMeasureValue as unknown as number});
+
+    const formattedMeasure = {
+      image_url: createdMeasure.image,
+      measure_uuid: createdMeasure.uuid as number,
+      measure_value: createdMeasure.measureValue as number,
+    }
+
+    return { status: 'SUCCESSFUL', data: formattedMeasure };
   }
 
 
