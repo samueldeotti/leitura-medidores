@@ -11,7 +11,11 @@ export default class MeasureService {
 
   public async createMeasure(measure: Measure): Promise<ServiceResponse<ResponseMeasure>> {
 
-    const geminiMeasureValue: number = await getGeminiMeasure(measure.image);
+    const teste = await getGeminiMeasure(measure.image);
+
+    console.log(teste, 'teste')
+
+    const geminiMeasureValue: number = 0 
 
     console.log('Gemini measure value: ', geminiMeasureValue);
 
