@@ -1,9 +1,9 @@
 import axios from 'axios';
 import fs from 'fs';
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { GoogleAIFileManager } from "@google/generative-ai/server";
 
-const decodeBase64Image = async (base64Image: string) => {
+const generateImage = async (base64Image: string) => {
   const buffer = Buffer.from(base64Image, 'base64');
 
   fs.writeFile("b64DecodedImage.png", buffer, function (error) {
@@ -18,20 +18,27 @@ const decodeBase64Image = async (base64Image: string) => {
 export const getGeminiMeasure = async (base64Image: string) => {
 
   try {
-    await decodeBase64Image(base64Image);
+    await generateImage(base64Image);
 
     const fileManager = new GoogleAIFileManager(process.env.GEMINI_API_KEY || '');
+
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
+
+    // const safetySettings = [
+    //   {
+    //     category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+    //     threshold: HarmBlockThreshold.BLOCK_NONE,
+    //   },
+    // ];
+
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-pro",
+      // safetySettings,      
+    });
 
     const uploadResponse = await fileManager.uploadFile("b64DecodedImage.png", {
       mimeType: "image/png",
       displayName: "Measure Image",
-    });
-
-
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
-
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-pro",
     });
 
     function fileToGenerativePart(mimeType: string) {
@@ -45,14 +52,13 @@ export const getGeminiMeasure = async (base64Image: string) => {
 
     const filePart3 = fileToGenerativePart("image/png")
 
-
     const prompt = "Tell me the number of the consumed measure. Return just the number without any text or characters.";
 
     const result = await model.generateContent([prompt, filePart3]);
 
-    return {measureValue: result.response.text(), imageUrl: uploadResponse.file.uri};
+    return { measureValue: result.response.text(), imageUrl: uploadResponse.file.uri };
 
-  } catch(error) {
+  } catch (error) {
     console.log(error);
     throw new Error('Erro ao processar a imagem.');
   }

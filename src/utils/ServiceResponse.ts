@@ -4,7 +4,7 @@ type ServiceErrorMessage = {
 };
 
 type ServiceResponseErrorType = 'INVALID_DATA'
-| 'UNAUTHORIZED' | 'NOT_FOUND' | 'CONFLICT' | 'INVALID' | 'BAD_REQUEST';
+| 'UNAUTHORIZED' | 'NOT_FOUND' | 'CONFLICT' | 'INVALID' | 'BAD_REQUEST' | 'INTERNAL_SERVER_ERROR';
 
 export type ServiceResponseError = {
   status: ServiceResponseErrorType,
