@@ -11,16 +11,16 @@ export default class MeasureService {
 
   public async createMeasure(measure: Measure): Promise<ServiceResponse<ResponseMeasure>> {
 
-    const geminiMeasureValue = await getGeminiMeasure(measure.image);
+    const geminiMeasureValue: number = await getGeminiMeasure(measure.image);
 
     console.log('Gemini measure value: ', geminiMeasureValue);
 
-    const createdMeasure = await this.measureModel.createMeasure({...measure, measureValue: geminiMeasureValue as unknown as number});
+    const createdMeasure = await this.measureModel.createMeasure({...measure, measureValue: geminiMeasureValue });
 
     const formattedMeasure = {
       image_url: createdMeasure.image,
-      measure_uuid: createdMeasure.uuid as number,
       measure_value: createdMeasure.measureValue as number,
+      measure_uuid: createdMeasure.uuid as number,
     }
 
     return { status: 'SUCCESSFUL', data: formattedMeasure };

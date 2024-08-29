@@ -7,8 +7,7 @@ export default class ConfirmService {
     private measureModel: IMeasureModel = new MeasureModel(),
   ) { }
 
-  public async confirmMeasure(measureUuid:string, confirmedValue: number): Promise<ServiceResponse<{"success": true}>> {
-
+  public async confirmMeasure(measureUuid: string, confirmedValue: number): Promise<ServiceResponse<{ "success": true }>> {
     const measure = await this.measureModel.findByPk(measureUuid);
 
     if (!measure) {
@@ -21,20 +20,19 @@ export default class ConfirmService {
       }
     }
 
-
     if (measure.hasConfirmed) {
       return {
-        status: 'BAD_REQUEST',
+        status: 'CONFLICT',
         data: {
           error_code: 'CONFIRMATION_DUPLICATE',
-          error_description: 'Leitura do mês já confirmada'
+          error_description: 'Leitura do mês já realizada'
         }
       }
     }
 
     await this.measureModel.confirmMeasure(measure, confirmedValue);
 
-    return { status: 'SUCCESSFUL', data: {"success": true} };
+    return { status: 'SUCCESSFUL', data: { "success": true } };
   }
 
 
