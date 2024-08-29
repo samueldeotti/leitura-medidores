@@ -28,69 +28,32 @@ export const getGeminiMeasure = async (base64Image: string) => {
       displayName: "Measure Image",
     });
 
-    // View the response.
-    // console.log(`Uploaded file ${uploadResponse.file.displayName} as: ${uploadResponse.file.uri}`);
-
-    // Get the previously uploaded file's metadata.
-    const getResponse = await fileManager.getFile(uploadResponse.file.name);
-
-    // View the response.
-    // console.log(`Retrieved file ${getResponse.displayName} as ${getResponse.uri}`);
-
-    console.log(uploadResponse.file.uri, 'uploadResponse.file.uri')
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
-
     const model = genAI.getGenerativeModel({
-      // Choose a Gemini model.
       model: "gemini-1.5-pro",
     });
 
-    // Converts local file information to a GoogleGenerativeAI.Part object.
-    // function fileToGenerativePart(mimeType:string) {
-    //   return {
-    //     inlineData: {
-    //       data: Buffer.from(fs.readFileSync('b64DecodedImage.png')).toString("base64"),
-    //       mimeType
-    //     },
-    //   };
-    // }
+    function fileToGenerativePart(mimeType:string) {
+      return {
+        inlineData: {
+          data: Buffer.from(fs.readFileSync('b64DecodedImage.png')).toString("base64"),
+          mimeType
+        },
+      };
+    }
 
-    // // Turn images to Part objects
 
-    // const filePart3 = fileToGenerativePart("image/png")
-
-    // async function run() {
-    //   // Choose a Gemini model.
-    //   const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    const filePart3 = fileToGenerativePart("image/png")
     
-    //   const prompt = "Write what you see on the image";
+      const prompt = "Tell me the number of the consumed measure. Return just the number without any text or characters.";
     
-    //   const imageParts = [
-    //     filePart3,
-    //   ];
-    
-    //   const generatedContent = await model.generateContent([prompt, ...imageParts]);
-      
-    //   console.log(generatedContent.response.text());
-    // }
-    
-    // run();
+    const result = await model.generateContent([prompt, filePart3]);
 
+    console.log('result', result.response.text())
 
-    const result = await model.generateContent([
-      {
-        fileData: {
-          mimeType: uploadResponse.file.mimeType,
-          fileUri: uploadResponse.file.uri
-        }
-      },
-      { text: "tell me what you see in the image" },
-    ]);
-
-    // Output the generated text to the console
-    console.log(result.response.text())
+    return result.response.text()
 
   } catch {
     throw new Error('Erro ao processar a imagem.');
