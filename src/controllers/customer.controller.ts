@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import CustomerService from '../services/customer.service';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
 import { querySchema } from '../schema/customerQuerySchema';
-import { Measure } from '../types/Measure';
+import { Measure } from '../Interfaces/Measures/MeasureType';
 
 export default class ConfirmController {
   constructor(

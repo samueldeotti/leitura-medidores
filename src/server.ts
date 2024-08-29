@@ -3,7 +3,8 @@ import sequelize from './database/config/db';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const PORT = process.env.PORT || 3000;
+
+const PORT = 8080;
 
 sequelize.sync().then(() => console.log('Database connected!'));
 

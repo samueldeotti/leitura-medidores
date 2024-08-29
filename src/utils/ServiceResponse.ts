@@ -1,9 +1,6 @@
 type ServiceErrorMessage = {
-
   error_code: string;
-
   error_description: string;
-
 };
 
 type ServiceResponseErrorType = 'INVALID_DATA'
@@ -21,9 +18,7 @@ export type ServiceResponseSuccess<T> = {
 
 export type ServiceResponse<T> = {
   status: 'SUCCESSFUL' | 'BAD_REQUEST' | 'NOT_FOUND';
-
   data: T | ServiceErrorMessage;
-
 };
 
 

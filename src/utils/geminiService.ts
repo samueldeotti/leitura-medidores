@@ -8,7 +8,6 @@ export const getGeminiMeasure = async (base64Image: string) => {
 export const getGeminiMeasuree = async (base64Image: string) => {
   try {
 
-// Access your API key as an environment variable
     const genAI = new GoogleGenerativeAI(process.env.API_KEY || '');
     const GEMINI_API_URL = 'https://ai.google.dev/gemini-api/vision';
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY;

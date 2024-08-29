@@ -5,8 +5,8 @@ import {
   ModelDefined,
 } from 'sequelize';
 import db from '../config/db';
+import { Measure } from '../../Interfaces/Measures/MeasureType';
 
-import { Measure } from '../../types/Measure';
 
 export type MeasureInputtableFields = Optional<Measure, 'uuid'>;
 

@@ -1,6 +1,6 @@
 import MeasureModel from '../models/measureModel';
 import { IMeasureModel } from '../Interfaces/Measures/IMeasureModel';
-import { ServiceResponse } from '../types/ServiceResponse';
+import { ServiceResponse } from '../utils/ServiceResponse';
 import { Measure, ResponseMeasure } from '../Interfaces/Measures/MeasureType';
 import { getGeminiMeasure } from '../utils/geminiService';
 
