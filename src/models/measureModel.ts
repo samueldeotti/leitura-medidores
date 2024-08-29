@@ -12,16 +12,13 @@ export default class MeasureModel implements IMeasureModel {
 
   async findByPk(measureUuid: string): Promise<Measure | null> {
     const measure = await this.model.findByPk(measureUuid);
-    if (!measure) return null;
-    
-    return measure.dataValues;
+    return measure ? measure.dataValues : null;
   }
 
   async confirmMeasure(measure: Measure, confirmedValue: number): Promise<Measure> {
     measure.measureValue = confirmedValue;
     measure.hasConfirmed = true;
     await this.model.update(measure, { where: { uuid: measure.uuid } });
-
     return measure;
   }
   

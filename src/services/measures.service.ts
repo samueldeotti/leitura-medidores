@@ -17,7 +17,7 @@ export default class MeasureService {
 
     const createdMeasure = await this.measureModel.createMeasure({...measure, measureValue: geminiMeasureValue });
 
-    const formattedMeasure = {
+    const formattedMeasure: ResponseMeasure = {
       image_url: createdMeasure.image,
       measure_value: createdMeasure.measureValue as number,
       measure_uuid: createdMeasure.uuid as number,
