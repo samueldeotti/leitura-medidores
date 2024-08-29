@@ -12,4 +12,5 @@
     "sonarjs/prefer-object-literal": "off",
     "mocha/no-setup-in-describe": "off"
   }
+  
 }
