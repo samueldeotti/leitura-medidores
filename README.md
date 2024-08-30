@@ -40,7 +40,7 @@ The idea behind this API is to develop a backend service that manages the indivi
 
 3. Build and Run the Docker Compose services:
     ```bash
-    docker-compose up --build
+    docker compose up --build
     ```
 
 ### How to Stop the Backend Application
