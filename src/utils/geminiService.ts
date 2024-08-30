@@ -1,4 +1,3 @@
-import axios from 'axios';
 import fs from 'fs';
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { GoogleAIFileManager } from "@google/generative-ai/server";
@@ -24,16 +23,9 @@ export const getGeminiMeasure = async (base64Image: string) => {
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
-    // const safetySettings = [
-    //   {
-    //     category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-    //     threshold: HarmBlockThreshold.BLOCK_NONE,
-    //   },
-    // ];
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-pro",
-      // safetySettings,      
+      model: "gemini-1.5-pro",    
     });
 
     const uploadResponse = await fileManager.uploadFile("b64DecodedImage.png", {

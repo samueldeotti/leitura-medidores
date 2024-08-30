@@ -39,7 +39,6 @@ const MeasureModel: MeasureSequelizeModelCreator = db.define('Measure', {
   measureValue: {
     allowNull: false,
     type: DataTypes.INTEGER,
-    // defaultValue: 0, // ficar 0 por enquanto ate desenvolver a funcionalidade
     field: 'measure_value',
   },
   hasConfirmed: {
